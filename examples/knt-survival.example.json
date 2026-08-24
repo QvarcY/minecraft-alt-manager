@@ -1,0 +1,86 @@
+﻿{
+  "id": "knt-survival-example",
+  "name": "KNT Survival Example",
+  "connection": {
+    "host": "mc.knt.lv",
+    "port": 25565,
+    "version": "1.21.11",
+    "username": "Example_ALT",
+    "auth": "offline"
+  },
+  "reconnect": {
+    "enabled": true,
+    "delayMs": 15000
+  },
+  "compatibility": {
+    "tickEndGuard": true,
+    "disablePhysicsDuringConfiguration": true
+  },
+  "workflow": {
+    "steps": [
+      {
+        "id": "login",
+        "name": "Autorizācija",
+        "enabled": true,
+        "trigger": {
+          "type": "spawn",
+          "occurrence": 1
+        },
+        "delayMs": 3000,
+        "action": {
+          "type": "chat",
+          "text": "/login {password}"
+        }
+      },
+      {
+        "id": "survival",
+        "name": "Pāriet uz Survival",
+        "enabled": true,
+        "trigger": {
+          "type": "message",
+          "match": "contains",
+          "any": [
+            "Successfully logged in",
+            "already logged in"
+          ]
+        },
+        "delayMs": 3000,
+        "action": {
+          "type": "chat",
+          "text": "/server-survival"
+        }
+      },
+      {
+        "id": "home",
+        "name": "Teleportēties uz land-home",
+        "enabled": true,
+        "trigger": {
+          "type": "message",
+          "match": "contains",
+          "any": [
+            "Welcome to Survival server!"
+          ]
+        },
+        "delayMs": 3000,
+        "action": {
+          "type": "chat",
+          "text": "/tp land-home"
+        }
+      },
+      {
+        "id": "afk",
+        "name": "Atzīmēt kā AFK",
+        "enabled": true,
+        "trigger": {
+          "type": "spawnAfterStep",
+          "afterStepId": "home",
+          "requireConfigurationCycle": true
+        },
+        "delayMs": 500,
+        "action": {
+          "type": "markAfk"
+        }
+      }
+    ]
+  }
+}

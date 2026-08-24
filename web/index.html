@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Minecraft ALT Manager · IT solutions by QvarcY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">ALT</div>
+        <div>
+          <h1>Minecraft ALT Manager</h1>
+          <div class="muted">ALT profili, automātiska pieteikšanās un ceļš līdz AFK · IT solutions by QvarcY</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span id="managerState" class="pill ok">Manager online</span>
+        <button class="danger ghost" onclick="shutdownManager()">Izslēgt Manager</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button id="tabDashboard" class="tab active" onclick="showTab('dashboard')">Vadība</button>
+      <button id="tabProfiles" class="tab" onclick="showTab('profiles')">Profili</button>
+      <button id="tabGuide" class="tab" onclick="showTab('guide')">Pamācība</button>
+    </nav>
+
+    <main id="dashboardView">
+      <section class="hero-grid">
+        <article class="panel hero-panel">
+          <div class="eyebrow">Aktīvais profils</div>
+          <div class="profile-line">
+            <div>
+              <div id="activeProfileName" class="profile-name">—</div>
+              <div id="activeProfileMeta" class="muted">—</div>
+            </div>
+            <div id="statusBadge" class="badge">—</div>
+          </div>
+
+          <div id="bigStatus" class="big-status">Ielādē...</div>
+          <div id="subStatus" class="muted">Gaida Manager statusu.</div>
+
+          <div class="controls">
+            <button id="startBtn" class="primary" onclick="control('start')">Start ALT</button>
+            <button id="restartBtn" class="warn" onclick="control('restart')">Restart ALT</button>
+            <button id="stopBtn" class="danger" onclick="control('stop')">Stop ALT</button>
+          </div>
+        </article>
+
+        <article class="panel facts-panel">
+          <div class="facts-grid">
+            <div class="fact"><span>Serveris</span><strong id="serverValue">—</strong></div>
+            <div class="fact"><span>Lietotājs</span><strong id="usernameValue">—</strong></div>
+            <div class="fact"><span>MC versija</span><strong id="versionValue">—</strong></div>
+            <div class="fact"><span>Sesija</span><strong id="sessionValue">—</strong></div>
+            <div class="fact"><span>Protocol</span><strong id="protocolValue">—</strong></div>
+            <div class="fact"><span>Manager PID</span><strong id="pidValue">—</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="cards">
+        <article class="panel card"><span>AFK laiks</span><strong id="afkValue">—</strong></article>
+        <article class="panel card"><span>HP</span><strong id="hpValue">—</strong><div class="bar"><i id="hpBar"></i></div></article>
+        <article class="panel card"><span>Food</span><strong id="foodValue">—</strong><div class="bar"><i id="foodBar"></i></div></article>
+        <article class="panel card"><span>Pozīcija</span><strong id="positionValue" class="mono">—</strong></article>
+      </section>
+
+      <section class="two-col">
+        <article class="panel info-panel">
+          <div class="panel-title-row">
+            <h2>Savienojums</h2>
+            <button class="small" onclick="configureActiveProfile()">Konfigurēt profilu</button>
+          </div>
+          <div class="kv"><span>Minecraft</span><strong id="minecraftValue">—</strong></div>
+          <div class="kv"><span>Reconnect</span><strong id="reconnectValue">—</strong></div>
+          <div class="kv"><span>Sesijas uptime</span><strong id="sessionUptimeValue">—</strong></div>
+          <div class="kv"><span>CONFIG tick_end bloķēti</span><strong id="tickValue">0</strong></div>
+          <div class="kv"><span>Pēdējā atvienošanās</span><strong id="disconnectValue">—</strong></div>
+          <div id="errorBox" class="error-box"></div>
+
+          <div class="quick-profile">
+            <label>Ātrā profila maiņa
+              <select id="quickProfileSelect"></select>
+            </label>
+            <button id="quickProfileBtn" class="small" onclick="quickUseProfile()">Lietot</button>
+          </div>
+        </article>
+
+        <article class="panel info-panel">
+          <h2>Workflow progress</h2>
+          <div id="workflowProgress" class="workflow-progress muted">Nav datu.</div>
+        </article>
+      </section>
+
+      <section class="panel manual-panel">
+        <div class="panel-head compact-head">
+          <div>
+            <h2>Manuālā komanda</h2>
+            <div class="muted small-text">Noder jauna servera izpētei. Vari lietot <code>{password}</code>, <code>{username}</code>, <code>{host}</code>, <code>{port}</code>.</div>
+          </div>
+        </div>
+        <form class="manual-row" onsubmit="sendManual(event)">
+          <input id="manualText" autocomplete="off" placeholder="Piemēram: /login {password} vai /server survival">
+          <button id="manualSendBtn" class="primary" type="submit">Nosūtīt</button>
+        </form>
+      </section>
+
+      <section class="panel log-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Dzīvais logs</h2>
+            <div class="muted small-text">Uzklikšķini uz zilas servera rindas, lai nokopētu tieši tekstu, ko vari izmantot kā workflow nosacījumu.</div>
+          </div>
+          <div><button class="small" onclick="copyLogs()">Kopēt logu</button><button class="small" onclick="clearLogs()">Notīrīt</button></div>
+        </div>
+        <div id="logs" class="logs"></div>
+      </section>
+    </main>
+
+    <main id="profilesView" class="hidden">
+      <section class="profiles-layout">
+        <aside class="panel profile-list-panel">
+          <div class="panel-head">
+            <h2>Profili</h2>
+            <div class="mini-actions">
+              <button class="small" onclick="openImport()">Importēt</button>
+              <button class="small primary" onclick="newProfile()">+ Jauns</button>
+            </div>
+          </div>
+          <div id="profileList" class="profile-list"></div>
+          <div class="settings-mini">
+            <label class="switch-line"><input id="autoStart" type="checkbox" onchange="saveGlobalSettings()"> Automātiski startēt aktīvo profilu kopā ar Manager</label>
+          </div>
+          <input id="profileImportFile" class="hidden" type="file" accept="application/json,.json" onchange="importProfileFile(event)">
+        </aside>
+
+        <section class="panel editor-panel">
+          <div class="panel-head editor-head">
+            <div>
+              <h2 id="editorTitle">Profila iestatījumi</h2>
+              <div id="editorNotice" class="muted"></div>
+            </div>
+            <div class="editor-actions">
+              <button id="validateProfileBtn" class="small" onclick="validateProfile()">Pārbaudīt</button>
+              <button id="exportProfileBtn" class="small" onclick="exportProfile()">Eksportēt</button>
+              <button id="selectProfileBtn" class="small" onclick="selectEditedProfile()">Lietot šo profilu</button>
+              <button class="small" onclick="duplicateProfile()">Dublēt</button>
+              <button id="deleteProfileBtn" class="small danger" onclick="deleteEditedProfile()">Dzēst</button>
+              <button class="small primary" onclick="saveProfile()">Saglabāt</button>
+            </div>
+          </div>
+
+          <div id="templateChooser" class="form-section template-section">
+            <div class="section-head">
+              <div>
+                <h3>1. Izvēlies, kā ALT nokļūs līdz AFK</h3>
+                <div class="muted small-text">Šablons izveidos darbību secību. Pēc tam nomaini komandas un servera tekstus uz sava servera variantiem.</div>
+              </div>
+            </div>
+            <div class="template-grid">
+              <button class="template-card" onclick="applyTemplate('monitor')"><strong>Izpētes režīms</strong><span>Tikai pieslēdzas un rāda servera logus. Labs pirmajam testam.</span></button>
+              <button class="template-card" onclick="applyTemplate('direct')"><strong>Tiešs AFK</strong><span>Serveris ielaiž uzreiz, pēc pirmā spawn atzīmē AFK.</span></button>
+              <button class="template-card" onclick="applyTemplate('login')"><strong>Login + AFK</strong><span>Nosūta /login, gaida veiksmīgas autorizācijas tekstu un pabeidz.</span></button>
+              <button class="template-card" onclick="applyTemplate('hub')"><strong>Hub / Proxy + Home</strong><span>Login → cits serveris → home/land → AFK. KNT tipa plūsma.</span></button>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-kicker">2. Savienojums</div>
+            <h3>Serveris un ALT konts</h3>
+            <div class="form-grid">
+              <label>Profila nosaukums<input id="pName" type="text" placeholder="Mans Survival ALT" oninput="syncNewProfileId()"></label>
+              <label>Servera IP / host<input id="pHost" type="text" placeholder="play.example.lv"></label>
+              <label>Ports<input id="pPort" type="number" min="1" max="65535" value="25565"></label>
+              <label>Minecraft versija<input id="pVersion" type="text" placeholder="1.21.11"></label>
+              <label>ALT lietotājvārds<input id="pUsername" type="text" placeholder="Farm_ALT"></label>
+              <label>Konts<select id="pAuth"><option value="offline">Offline / cracked serveris</option><option value="microsoft">Microsoft konts</option></select></label>
+            </div>
+
+            <details class="advanced-details">
+              <summary>Tehniskie profila iestatījumi</summary>
+              <div class="details-body">
+                <label>Profila ID<input id="pId" type="text" placeholder="mans-survival" oninput="profileIdEdited()"></label>
+                <div class="muted small-text">ID ir faila tehniskais nosaukums. Parasti to nav jāmaina.</div>
+              </div>
+            </details>
+          </div>
+
+          <div class="form-section">
+            <div class="section-kicker">3. Parole</div>
+            <h3>Servera /login parole</h3>
+            <div class="password-row">
+              <div>
+                <div id="passwordStatus" class="password-state">—</div>
+                <div class="muted small-text">Ja workflow komandā raksti <code>{password}</code>, īstā parole tiek paņemta no Windows DPAPI un profila JSON neparādās.</div>
+              </div>
+              <div class="password-input"><input id="pPassword" type="password" placeholder="Jauna parole"><button onclick="savePassword()">Saglabāt paroli</button></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-head">
+              <div>
+                <div class="section-kicker">4. Automatizācija</div>
+                <h3>Ceļš līdz AFK</h3>
+                <div class="muted small-text">Katrs solis nozīmē: <b>KAD</b> kaut kas notiek → <b>PAGAIDI</b> → <b>IZDARI</b>. Sarežģīti tehniskie lauki ir paslēpti.</div>
+              </div>
+              <div class="mini-actions">
+                <button class="small" onclick="addCommandStep()">+ Komanda</button>
+                <button class="small primary" onclick="addAfkStep()">+ AFK beigas</button>
+              </div>
+            </div>
+            <div id="diagnosticsBox" class="diagnostics hidden"></div>
+            <div id="stepsEditor" class="steps-editor"></div>
+          </div>
+
+          <details class="form-section advanced-details standalone-details">
+            <summary>Reconnect un savietojamības papildu iestatījumi</summary>
+            <div class="details-body">
+              <div class="form-grid compact-grid">
+                <label class="check"><input id="pReconnectEnabled" type="checkbox" checked> Automātisks reconnect</label>
+                <label>Pirmais reconnect pēc (sek.)<input id="pReconnectDelay" type="number" min="1" max="300" value="15"></label>
+                <label class="check"><input id="pReconnectBackoff" type="checkbox" checked> Palielināt gaidīšanu pēc atkārtotām kļūdām</label>
+                <label>Maksimālā gaidīšana (sek.)<input id="pReconnectMaxDelay" type="number" min="1" max="900" value="300"></label>
+                <label>Maksimālie automātiskie mēģinājumi<input id="pReconnectMaxAttempts" type="number" min="1" max="20" value="5"></label>
+                <label>Atiestatīt pēc stabila PLAY (sek.)<input id="pReconnectResetAfter" type="number" min="30" max="3600" value="120"></label>
+                <label class="check"><input id="pTickGuard" type="checkbox" checked> Bloķēt tick_end ārpus PLAY</label>
+                <label class="check"><input id="pPhysicsGuard" type="checkbox" checked> CONFIGURATION laikā izslēgt physics</label>
+              </div>
+              <div class="muted small-text warning-note">Ja serveris strādā ar noklusējuma vērtībām, šos iestatījumus labāk nemainīt.</div>
+            </div>
+          </details>
+
+          <div class="form-section about-section">
+            <h3>Par programmu</h3>
+            <div class="about-brand">
+              <strong>Minecraft ALT Manager</strong>
+              <span>Universāls ALT profilu un automatizācijas menedžeris</span>
+              <span>Autors: <b>QvarcY</b> · <a class="author-link" href="https://kas.id.lv" target="_blank" rel="noopener">IT solutions by QvarcY · kas.id.lv</a></span>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <main id="guideView" class="hidden">
+      <section class="guide-hero panel">
+        <div class="eyebrow">Pamācība</div>
+        <h2>Jauns serveris no nulles līdz AFK profilam</h2>
+        <p>Nav jāzina Mineflayer vai JSON. Drošākais veids ir vispirms pieslēgt ALT izpētes režīmā, apskatīt servera tekstus un tikai tad uzbūvēt darbību secību.</p>
+      </section>
+
+      <section class="guide-grid">
+        <article class="panel guide-card">
+          <span class="guide-num">1</span><h3>Izveido profilu</h3>
+          <p>Profili → Jauns → izvēlies <b>Izpētes režīms</b>. Ievadi servera adresi, portu, Minecraft versiju, ALT lietotājvārdu un konta tipu. Saglabā un izvēlies “Lietot šo profilu”.</p>
+        </article>
+        <article class="panel guide-card">
+          <span class="guide-num">2</span><h3>Skaties, ko serveris prasa</h3>
+          <p>Nospied Start ALT. Dzīvajā logā redzēsi login tekstus, welcome tekstus un citus paziņojumus. Uzklikšķini uz zilas servera rindas, lai nokopētu tīro tekstu workflow nosacījumam.</p>
+        </article>
+        <article class="panel guide-card">
+          <span class="guide-num">3</span><h3>Izmēģini komandas</h3>
+          <p>Vadības lapā izmanto “Manuālā komanda”. Piemēram <code>/login {password}</code>, <code>/server survival</code> vai <code>/home</code>. Ja profilam ir saglabāta parole, <code>{password}</code> tiks aizstāts droši.</p>
+        </article>
+        <article class="panel guide-card">
+          <span class="guide-num">4</span><h3>Saliec ceļu līdz AFK</h3>
+          <p>Atgriezies profilā. Pievieno komandas un AFK beigu soli. Katram solim izvēlies, kas to iedarbina: spawn, servera ziņojums, iepriekšējais solis vai jauns spawn pēc iepriekšējā soļa.</p>
+        </article>
+      </section>
+
+      <section class="panel guide-section">
+        <h2>Kuru “KAD” nosacījumu izvēlēties?</h2>
+        <div class="guide-table">
+          <div><strong>Pirmais / konkrēts spawn</strong><span>ALT tikko parādījies servera pasaulē. Visbiežāk pirmajai /login komandai vai tiešam AFK.</span></div>
+          <div><strong>Servera ziņojums</strong><span>Drošākais variants, ja nākamo komandu drīkst sūtīt tikai pēc konkrēta servera apstiprinājuma. Vari norādīt vairākus teksta variantus.</span></div>
+          <div><strong>Pēc iepriekšējā soļa</strong><span>Vienkārša lineāra ķēde. Piemēram /home → pagaidi 5 s → AFK. Nav vajadzīgs jauns spawn vai servera teksts.</span></div>
+          <div><strong>Jauns spawn pēc soļa</strong><span>Proxy/servera/pasaules pārejām. Opcija “prasīt CONFIGURATION ciklu” ir īpaši noderīga Velocity tipa pārejām.</span></div>
+        </div>
+      </section>
+
+      <section class="two-col guide-bottom">
+        <article class="panel guide-section">
+          <h2>Mainīgie komandās</h2>
+          <div class="code-list"><code>{password}</code><span>DPAPI saglabātā servera parole</span><code>{username}</code><span>ALT lietotājvārds</span><code>{host}</code><span>servera host</span><code>{port}</code><span>servera ports</span></div>
+        </article>
+        <article class="panel guide-section">
+          <h2>Ko Manager automātiski neuzmin</h2>
+          <p>Katram serverim var būt atšķirīgas komandas un atbildes. CAPTCHA, sarežģītas inventory izvēlnes vai nestandarta pluginu darbības var prasīt papildu izstrādi. Parastām komandu/login/proxy/home plūsmām profilu vednis ir paredzēts bez koda rediģēšanas.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <span><span id="footerVersion">Minecraft ALT Manager</span> · <a class="author-link" href="https://kas.id.lv" target="_blank" rel="noopener">IT solutions by QvarcY · kas.id.lv</a></span>
+      <span id="lastRefresh">—</span>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

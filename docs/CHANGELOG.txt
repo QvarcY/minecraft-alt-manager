@@ -1,0 +1,99 @@
+﻿MINECRAFT ALT MANAGER v3.2.0 — CHANGELOG
+=========================================
+Release date: 2026-08-24
+Status: Stable Release
+Platform: Windows x64
+Edition: Minecraft Java Edition
+Author: QvarcY
+https://kas.id.lv
+
+LATVISKI
+--------
+JAUNS
+- Vairāku serveru/profilu sistēma.
+- Vadīti profilu šabloni: Izpētes režīms, Tiešs AFK, Login + AFK, Hub / Proxy + Home.
+- Vienkāršots workflow redaktors: KAD → PAGAIDI → IZDARI.
+- Jauns afterStep nosacījums lineārām komandu ķēdēm.
+- Servera ziņojuma nosacījumu piesaiste iepriekšējam solim.
+- Manuālā komanda ar {password}, {username}, {host}, {port}.
+- Klikšķināmi servera loga ziņojumi workflow teksta kopēšanai.
+- Profila pārbaude, imports un eksports.
+- Iebūvēta Pamācības sadaļa un pilnas LV/EN lietotāja pamācības.
+
+UZLABOTS
+- Portable un Installed darba plūsma.
+- Stabils Portable ID starp release versijām.
+- Reconnect aizsardzība ar pieaugošiem intervāliem un circuit breaker.
+- Velocity/CONFIGURATION saderība un tick_end aizsardzība.
+- DPAPI paroles tiek atšifrētas tikai tad, kad konkrētai komandai tās vajadzīgas.
+- Clean-PC SELF-TEST ar komplektā iekļauto Node runtime.
+- Installed uninstall saglabā PortableData un pilnībā noņem Installed failus/reģistra ierakstu.
+
+OPTIMIZĒTS
+- Release mapes izmērs samazināts no aptuveni 536.8 MB līdz 195.4 MB testētajā buildā.
+- No Java Edition release izņemti Bedrock versiju dati, saglabājot visus Java/PC minecraft-data datus un loaderim nepieciešamo Bedrock common metadata.
+- Builder veic runtime dependency probe un clean-PC simulāciju pēc optimizācijas.
+
+LABOTS
+- Velocity pārejās bloķēts PLAY-only tick_end ārpus PLAY stāvokļa.
+- Novērsta paroles atšifrēšana pirms komandām, kurām parole nav vajadzīga.
+- Installed UNINSTALL.cmd trailing-quote/InstallDir kļūda.
+- Atjaunota .mam-installed.json instalācijas marķiera izveide.
+- Uninstalleris pirms cleanup tiek kopēts uz TEMP, lai varētu droši izdzēst instalācijas mapi.
+- Builderis atsakās veidot release ar novecojušu/nedrošu installer arhitektūru.
+
+PĀRBAUDĪTS
+- Portable režīms: PASS.
+- Installed režīms: PASS.
+- KNT login → Survival → land-home → AFK: PASS.
+- Reconnect: PASS.
+- Installed uninstall + PortableData saglabāšana: PASS.
+- Clean-PC izolēts starts bez sistēmā instalēta Node.js: PASS.
+
+ENGLISH
+-------
+NEW
+- Multi-server / multi-profile system.
+- Guided profile templates: Exploration mode, Direct AFK, Login + AFK, Hub / Proxy + Home.
+- Simplified workflow editor: WHEN → WAIT → DO.
+- New afterStep condition for linear command chains.
+- Server-message conditions can be gated after a previous step.
+- Manual command console with {password}, {username}, {host}, {port}.
+- Clickable server log messages for copying workflow trigger text.
+- Profile validation, import and export.
+- In-app guide plus full Latvian and English user guides.
+
+IMPROVED
+- Portable and Installed workflows.
+- Stable Portable ID across future releases.
+- Reconnect protection with increasing delays and a circuit breaker.
+- Velocity/CONFIGURATION compatibility and tick_end protection.
+- DPAPI passwords are decrypted only when a command actually needs them.
+- Clean-PC SELF-TEST using the bundled Node runtime.
+- Installed uninstall preserves PortableData while fully removing Installed files and registry entry.
+
+OPTIMIZED
+- Tested release-folder size reduced from approximately 536.8 MB to 195.4 MB.
+- Bedrock version data removed from the Java Edition release while retaining all Java/PC minecraft-data and the Bedrock common metadata required by the loader.
+- Builder runs runtime dependency probes and a clean-PC simulation after optimization.
+
+FIXED
+- PLAY-only tick_end is suppressed outside PLAY during Velocity transitions.
+- Password decryption no longer occurs before commands that do not use the password.
+- Installed UNINSTALL.cmd trailing-quote/InstallDir bug.
+- Restored .mam-installed.json installation marker creation.
+- Uninstaller is copied to TEMP before cleanup so the installation directory can be removed safely.
+- Builder refuses to create a release with the legacy/unsafe installer architecture.
+
+VERIFIED
+- Portable mode: PASS.
+- Installed mode: PASS.
+- KNT login → Survival → land-home → AFK: PASS.
+- Reconnect: PASS.
+- Installed uninstall while preserving PortableData: PASS.
+- Isolated clean-PC start without a system Node.js installation: PASS.
+
+Minecraft ALT Manager v3.2.0
+Created by QvarcY
+IT solutions by QvarcY
+https://kas.id.lv

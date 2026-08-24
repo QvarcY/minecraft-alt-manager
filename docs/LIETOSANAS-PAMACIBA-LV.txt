@@ -1,0 +1,203 @@
+﻿MINECRAFT ALT MANAGER — LIETOŠANAS PAMĀCĪBA (LV)
+==================================================
+Minecraft ALT Manager v3.2.0
+Windows x64 | Minecraft Java Edition
+Stable Release
+
+Autors: QvarcY
+IT solutions by QvarcY
+https://kas.id.lv
+
+1. ĀTRAIS SĀKUMS
+-----------------
+Ja vēlies programmu lietot bez instalēšanas, palaid RUN-PORTABLE.cmd.
+Ja vēlies programmu instalēt šajā Windows datorā, palaid INSTALL.cmd.
+Ja vispirms vēlies pārbaudīt release failus un iebūvēto Node runtime, palaid SELF-TEST.cmd.
+
+Pēc Manager palaišanas pārlūkā atveras lokālais vadības panelis. Pēc noklusējuma tas darbojas tikai šajā datorā adresē http://127.0.0.1:3077.
+
+2. KAS IR MINECRAFT ALT MANAGER?
+--------------------------------
+Minecraft ALT Manager uztur Mineflayer ALT kontu Minecraft Java Edition serverī un var automātiski izpildīt ceļu no pieslēgšanās līdz vēlamajai AFK vietai.
+
+Programma nav piesieta vienam serverim. Katram serverim vari izveidot atsevišķu profilu ar:
+- servera adresi un portu;
+- Minecraft Java versiju;
+- ALT lietotājvārdu un autorizācijas tipu;
+- droši saglabātu /login paroli, ja serveris tādu prasa;
+- workflow jeb darbību secību līdz AFK gala stāvoklim;
+- reconnect iestatījumiem.
+
+Bedrock Edition serveri šajā release netiek atbalstīti.
+
+3. PORTABLE VAI INSTALLED?
+--------------------------
+RUN-PORTABLE.cmd
+  Palaiž Manager tieši no release mapes vai USB bez instalēšanas.
+  Profili atrodas release mapē. Paroles un Microsoft auth dati netiek rakstīti USB; tie glabājas Windows LocalAppData zem stabila portable.id.
+
+INSTALL.cmd
+  Instalē Manager pašreizējam Windows lietotājam zem:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager
+
+Svarīgi: Portable un Installed režīmi izmanto atsevišķu privāto datu glabātuvi. Pēc svaigas instalācijas profilam, kura workflow izmanto {password}, paroli Installed režīmā var būt nepieciešams saglabāt vienu reizi no jauna. Tā nav kļūda un parole netiek kopēta no Portable režīma.
+
+SELF-TEST.cmd
+  Pārbauda release struktūru, iebūvēto Node runtime, Java dependencies un izolētu Manager startu. Tests nepieslēdz ALT reālam Minecraft serverim.
+
+4. ESOŠA PROFILA PALAIŠANA
+---------------------------
+1. Atver cilni “Profili”.
+2. Izvēlies vajadzīgo profilu un “Lietot šo profilu”.
+3. Ja workflow izmanto {password}, saglabā paroli sadaļā “Parole”.
+4. Atver “Vadība” un nospied Start ALT.
+5. “Dzīvais logs” parāda savienojumu, workflow soļus, servera ziņojumus, reconnect un AFK statusu.
+
+5. JAUNS SERVERIS — VIENKĀRŠĀKAIS CEĻŠ
+---------------------------------------
+Ja serveri vēl nepazīsti, nesāc ar sarežģītu workflow.
+
+1. Profili → + Jauns.
+2. Izvēlies “Izpētes režīms”.
+3. Ievadi profila nosaukumu, host/IP, portu, Minecraft versiju, ALT lietotājvārdu un konta tipu.
+4. Saglabā profilu un izvēlies “Lietot šo profilu”.
+5. Ja serverim ir /login parole, saglabā to profilam.
+6. Start ALT.
+7. Skaties “Dzīvais logs”, lai redzētu, ko serveris patiesībā prasa.
+8. Izmanto “Manuālā komanda”, lai izmēģinātu vajadzīgās komandas.
+9. Kad plūsma ir skaidra, Stop ALT un saliec workflow pēc principa KAD → PAGAIDI → IZDARI.
+10. Pārbaudi profilu, saglabā un palaid no jauna.
+
+6. SERVERA TEKSTU IEKOPĒŠANA WORKFLOW
+-------------------------------------
+“Dzīvajā logā” zilās rindas ir servera ziņojumi. Klikšķis uz zilas servera rindas nokopē tīro servera tekstu. To vari ielīmēt workflow nosacījumā “Kad serveris uzraksta noteiktu tekstu”.
+
+Tas ir drošāk nekā minēt servera atbildi no galvas.
+
+7. MANUĀLĀ KOMANDA
+-------------------
+Vadības lapā vari manuāli nosūtīt komandu, piemēram:
+  /login {password}
+  /server survival
+  /home
+  /warp farm
+  /tp home
+
+Pieejamie mainīgie:
+  {password} — profilam DPAPI saglabātā parole
+  {username} — ALT lietotājvārds
+  {host} — profila servera host
+  {port} — profila servera ports
+
+{password} ļauj neievadīt īsto paroli workflow tekstā vai logā. Manager to atšifrē tikai tad, kad konkrētai komandai tā tiešām vajadzīga, un logā parole tiek maskēta.
+
+8. WORKFLOW — KAD → PAGAIDI → IZDARI
+-------------------------------------
+Katrs solis sastāv no trim idejām:
+
+KAD kaut kas notiek
+  → PAGAIDI vajadzīgo laiku
+  → IZDARI komandu vai atzīmē AFK
+
+Galvenie KAD nosacījumi:
+
+A) Kad ALT spawn / ielādējas pasaulē
+  Noder pirmajai /login komandai vai serverim, kur ALT uzreiz ir gala vietā.
+
+B) Kad serveris uzraksta noteiktu tekstu
+  Noder, ja nākamo komandu drīkst izpildīt tikai pēc servera apstiprinājuma. Vari norādīt vairākus iespējamos tekstus. Ziņojumu var piesaistīt arī konkrētam iepriekšējam solim.
+
+C) Pēc iepriekšējā workflow soļa
+  Noder vienkāršai lineārai ķēdei, kur servera atbildi nav jāgaida. Piemērs: /home → 5 s → AFK.
+
+D) Kad pēc iepriekšējā soļa notiek jauns spawn
+  Noder proxy, servera vai pasaules pārejām. “Prasīt CONFIGURATION ciklu” izmanto tikai tad, ja servera/proxy plūsmai tas tiešām vajadzīgs.
+
+Darbības:
+- nosūtīt komandu / čata tekstu;
+- atzīmēt workflow kā AFK pabeigtu.
+
+9. PROFILU ŠABLONI
+-------------------
+Izpētes režīms
+  Tikai pieslēdzas un rāda servera logus. Labākais sākums nepazīstamam serverim.
+
+Tiešs AFK
+  Pirmais spawn → neliela gaidīšana → AFK.
+
+Login + AFK
+  Pirmais spawn → /login {password} → veiksmīgas autorizācijas teksts → AFK.
+  Autorizācijas teksts jānomaina uz tādu, kādu raksta konkrētais serveris.
+
+Hub / Proxy + Home
+  Login → servera/proxy pāreja → komanda uz home/land/AFK vietu → jaunais spawn/pāreja → AFK.
+  Šablonā esošās komandas nav universālas un ir jāpielāgo serverim.
+
+10. PROFILA PĀRBAUDE, IMPORTS UN EKSPORTS
+------------------------------------------
+“Pārbaudīt” palīdz atrast acīmredzamas konfigurācijas problēmas pirms reāla testa. Piemēram, workflow izmanto {password}, bet parole vēl nav saglabāta, vai workflow nav AFK gala soļa.
+
+Profilu vari eksportēt uz JSON un importēt citā Manager instalācijā. Parole eksportētajā JSON netiek iekļauta. Pēc importa pārbaudi servera adresi, lietotājvārdu, komandas un saglabā paroli atsevišķi.
+
+11. RECONNECT AIZSARDZĪBA
+--------------------------
+Ja savienojums negaidīti pārtrūkst, Manager var mēģināt pieslēgties atkārtoti ar pieaugošu gaidīšanas laiku. Noklusējuma drošības modelis paredz vairākus mēģinājumus, pēc kuriem automātiskais reconnect tiek apturēts, lai neveidotos bezgalīgs cikls.
+
+Kad AFK gala stāvoklis ir sasniegts, reconnect kļūmju skaitītājs tiek atiestatīts.
+
+Dažos Velocity/proxy serveros pārejas laikā reizēm var parādīties servera/proxy kļūda un reconnect. Ja nākamais mēģinājums korekti sasniedz AFK, Manager aizsardzība ir nostrādājusi paredzētajā veidā. Ja kļūda atkārtojas bezgalīgi, workflow vai servera saderība ir jāpārbauda.
+
+12. PAROLES UN PRIVĀTIE DATI
+-----------------------------
+Parole netiek glabāta profila JSON. Windows režīmā tā tiek aizsargāta ar Windows DPAPI konkrētajam Windows lietotājam.
+
+Portable privātie dati:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager\PortableData\<portable-id>\
+
+Installed privātie dati:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager\data\
+
+Release ZIP nesatur DPAPI paroles, secret.dat vai Microsoft auth cache.
+
+CLEAN-PORTABLE-DATA.cmd izdzēš tieši šīs Portable pakotnes privātos datus no konkrētā Windows lietotāja profila.
+
+13. ATINSTALĒŠANA
+------------------
+Installed režīmu vari noņemt ar:
+- UNINSTALL.cmd instalācijas mapē;
+- Start Menu uninstall saīsni;
+- Windows Installed Apps;
+- UNINSTALL-FROM-PC.cmd no release/USB mapes.
+
+Uninstalleris noņem Installed programmas failus, Installed profilus/settings, Installed DPAPI secrets, Microsoft auth cache, saīsnes un uninstall reģistra ierakstu. PortableData tiek saglabāts.
+
+14. JA SERVERIS IR NESTANDARTA
+-------------------------------
+Manager paredzēts tipiskām komandām un servera teksta reakcijām. CAPTCHA, inventory GUI izvēlnes, klikšķināmas custom menu sistēmas, īpaši modded protokoli vai citi nestandarta pluginu mehānismi var prasīt papildu izstrādi.
+
+Ja nezini, kādu workflow veidot, izmanto Izpētes režīmu un balsti workflow uz reāli novēroto servera plūsmu.
+
+15. BIEŽĀKĀS SITUĀCIJAS
+------------------------
+“AutoStart izlaists: aktīvajam profilam nav saglabātas paroles.”
+  Saglabā profila paroli un Start ALT. Portable parole netiek automātiski kopēta uz Installed režīmu.
+
+“Šī profila workflow izmanto {password}, bet parole vēl nav saglabāta.”
+  Atver profilu, saglabā paroli un mēģini vēlreiz.
+
+Vadības panelis neatveras.
+  Pārbaudi Dzīvo logu un vai ports 3077 nav aizņemts ar citu Manager instanci.
+
+SELF-TEST iziet, bet serveris neielaiž ALT.
+  SELF-TEST pārbauda lokālo release, nevis konkrētā servera autentifikāciju, pluginus vai anti-bot prasības. Izmanto Izpētes režīmu un servera reālos ziņojumus.
+
+16. RELEASE INFORMĀCIJA
+------------------------
+Minecraft ALT Manager v3.2.0
+Windows x64
+Minecraft Java Edition
+Stable Release
+
+Autors: QvarcY
+IT solutions by QvarcY
+https://kas.id.lv

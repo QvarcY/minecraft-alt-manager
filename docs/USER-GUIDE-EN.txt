@@ -1,0 +1,205 @@
+﻿MINECRAFT ALT MANAGER — USER GUIDE (EN)
+=======================================
+Minecraft ALT Manager v3.2.0
+Windows x64 | Minecraft Java Edition
+Stable Release
+
+Author: QvarcY
+IT solutions by QvarcY
+https://kas.id.lv
+
+1. QUICK START
+--------------
+To use the application without installing it, run RUN-PORTABLE.cmd.
+To install it for the current Windows user, run INSTALL.cmd.
+To check the release files and bundled Node runtime first, run SELF-TEST.cmd.
+
+When the Manager starts, it opens a local web control panel. By default it listens only on this PC at http://127.0.0.1:3077.
+
+2. WHAT IS MINECRAFT ALT MANAGER?
+---------------------------------
+Minecraft ALT Manager keeps a Mineflayer ALT account connected to a Minecraft Java Edition server and can automate the route from joining the server to the desired AFK location.
+
+The application is not tied to one server. You can create a separate profile for each server containing:
+- server address and port;
+- Minecraft Java version;
+- ALT username and authentication type;
+- a securely stored /login password when required;
+- a workflow that leads to the final AFK state;
+- reconnect settings.
+
+Bedrock Edition servers are not supported by this release.
+
+3. PORTABLE OR INSTALLED?
+-------------------------
+RUN-PORTABLE.cmd
+  Runs the Manager directly from the release folder or USB drive without installation.
+  Profiles stay in the release folder. Passwords and Microsoft authentication data are not written to the USB drive; they are stored in Windows LocalAppData under the stable portable.id identity.
+
+INSTALL.cmd
+  Installs the Manager for the current Windows user under:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager
+
+Important: Portable and Installed modes use separate private-data storage. After a fresh installation, a profile whose workflow uses {password} may require the password to be saved once again in Installed mode. This is expected; the password is not copied from Portable mode.
+
+SELF-TEST.cmd
+  Verifies the release layout, bundled Node runtime, Java dependencies and an isolated Manager startup. It does not connect an ALT to a real Minecraft server.
+
+4. STARTING AN EXISTING PROFILE
+-------------------------------
+1. Open the “Profili” (Profiles) tab.
+2. Select the required profile and choose “Lietot šo profilu” (Use this profile).
+3. If the workflow uses {password}, save the password in the profile's password section.
+4. Open “Vadība” (Control) and press Start ALT.
+5. The live log shows connection state, workflow steps, server messages, reconnect attempts and AFK state.
+
+The current application UI is primarily Latvian; this guide includes the matching Latvian labels so they are easy to find.
+
+5. A NEW SERVER — THE SIMPLEST APPROACH
+----------------------------------------
+If you do not know the server's login flow yet, do not start by building a complex workflow.
+
+1. Profili → + Jauns (Profiles → + New).
+2. Choose “Izpētes režīms” (Exploration mode).
+3. Enter a profile name, host/IP, port, Minecraft version, ALT username and account type.
+4. Save the profile and choose “Lietot šo profilu” (Use this profile).
+5. If the server requires a /login password, save it for the profile.
+6. Start ALT.
+7. Watch the live log to see what the server actually asks for.
+8. Use “Manuālā komanda” (Manual command) to test the required commands.
+9. Once the flow is understood, Stop ALT and build a workflow using WHEN → WAIT → DO.
+10. Validate the profile, save it and start again.
+
+6. COPYING SERVER TEXT INTO A WORKFLOW
+--------------------------------------
+Blue lines in the live log are server messages. Clicking a blue server line copies the clean server text. Paste it into a workflow condition that waits for a specific server message.
+
+This is safer than guessing the exact server response.
+
+7. MANUAL COMMAND
+-----------------
+The Control page can send a command manually, for example:
+  /login {password}
+  /server survival
+  /home
+  /warp farm
+  /tp home
+
+Available variables:
+  {password} — the DPAPI-protected password saved for the profile
+  {username} — ALT username
+  {host} — profile server host
+  {port} — profile server port
+
+{password} means the real password does not have to be written into workflow text or logs. The Manager decrypts it only when a command actually requires it, and the live log masks it.
+
+8. WORKFLOW — WHEN → WAIT → DO
+-------------------------------
+Each workflow step follows the same idea:
+
+WHEN something happens
+  → WAIT for the required delay
+  → DO a command or mark the workflow as AFK
+
+Main WHEN conditions:
+
+A) When the ALT spawns / loads into a world
+  Useful for the initial /login command or a server where the ALT is already at the final location.
+
+B) When the server sends specific text
+  Useful when the next command must wait for server confirmation. Multiple possible texts can be entered. A message condition can also be gated so it is accepted only after a specific previous step.
+
+C) After the previous workflow step
+  Useful for a simple linear chain where no special server response is required. Example: /home → wait 5 seconds → AFK.
+
+D) When a new spawn occurs after a previous step
+  Useful for proxy, server or world transitions. Enable the CONFIGURATION-cycle requirement only when the server/proxy flow actually needs it.
+
+Actions:
+- send a command / chat text;
+- mark the workflow as successfully AFK.
+
+9. PROFILE TEMPLATES
+--------------------
+Izpētes režīms / Exploration mode
+  Only connects and shows server logs. Best starting point for an unknown server.
+
+Tiešs AFK / Direct AFK
+  First spawn → short delay → AFK.
+
+Login + AFK
+  First spawn → /login {password} → successful login message → AFK.
+  Replace the login-success text with the exact text sent by your server.
+
+Hub / Proxy + Home
+  Login → server/proxy transition → command to home/land/AFK location → new spawn/transition → AFK.
+  Commands in the template are examples and must be adapted to the target server.
+
+10. PROFILE VALIDATION, IMPORT AND EXPORT
+-----------------------------------------
+“Pārbaudīt” (Validate) helps detect obvious configuration issues before a live server test. For example, the workflow uses {password} but no password has been saved, or the workflow has no final AFK step.
+
+Profiles can be exported to JSON and imported into another Manager installation. Passwords are not included in exported JSON. After importing, verify the server address, username and commands, then save the password separately.
+
+11. RECONNECT PROTECTION
+------------------------
+If the connection ends unexpectedly, the Manager can reconnect with increasing delays. The default safety model allows a limited series of attempts and then stops automatic reconnect so the ALT cannot become trapped in an endless loop.
+
+When the final AFK state is reached, the reconnect failure counter is reset.
+
+Some Velocity/proxy servers may occasionally return a server/proxy error during a transition. If a reconnect then reaches AFK correctly, the Manager's recovery mechanism has worked as intended. If the failure repeats indefinitely, check the workflow and server compatibility.
+
+12. PASSWORDS AND PRIVATE DATA
+------------------------------
+The password is not stored in the profile JSON. On Windows it is protected with Windows DPAPI for the current Windows user.
+
+Portable private data:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager\PortableData\<portable-id>\
+
+Installed private data:
+  %LOCALAPPDATA%\QvarcY\MinecraftAltManager\data\
+
+The release ZIP contains no DPAPI passwords, secret.dat or Microsoft authentication cache.
+
+CLEAN-PORTABLE-DATA.cmd removes this specific Portable package's private data from the current Windows user profile.
+
+13. UNINSTALLING
+----------------
+The Installed version can be removed using:
+- UNINSTALL.cmd in the installation folder;
+- the Start Menu uninstall shortcut;
+- Windows Installed Apps;
+- UNINSTALL-FROM-PC.cmd from the release/USB folder.
+
+The uninstaller removes Installed application files, Installed profiles/settings, Installed DPAPI secrets, Microsoft auth cache, shortcuts and the uninstall registry entry. PortableData is preserved.
+
+14. NON-STANDARD SERVERS
+------------------------
+The Manager is designed for normal command-driven and server-message-driven flows. CAPTCHA systems, inventory GUI menus, clickable custom menus, heavily modded protocols or other unusual plugin mechanisms may require additional development.
+
+If you are unsure how to build a workflow, use Exploration mode and base the automation on the server flow you actually observe.
+
+15. COMMON SITUATIONS
+---------------------
+“AutoStart izlaists: aktīvajam profilam nav saglabātas paroles.”
+  Save the profile password and press Start ALT. A Portable password is not automatically copied into Installed mode.
+
+“Šī profila workflow izmanto {password}, bet parole vēl nav saglabāta.”
+  Open the profile, save the password and try again.
+
+The control panel does not open.
+  Check the live console and make sure port 3077 is not already used by another Manager instance.
+
+SELF-TEST passes but the server does not accept the ALT.
+  SELF-TEST validates the local release, not a specific server's authentication, plugins or anti-bot requirements. Use Exploration mode and the server's real messages.
+
+16. RELEASE INFORMATION
+-----------------------
+Minecraft ALT Manager v3.2.0
+Windows x64
+Minecraft Java Edition
+Stable Release
+
+Author: QvarcY
+IT solutions by QvarcY
+https://kas.id.lv

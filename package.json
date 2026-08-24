@@ -1,0 +1,19 @@
+{
+  "name": "minecraft-alt-manager",
+  "version": "3.2.0",
+  "description": "Universal Minecraft ALT profile and automation manager",
+  "main": "manager.js",
+  "scripts": {
+    "start": "node manager.js",
+    "check": "node --check manager.js"
+  },
+  "keywords": [],
+  "author": "QvarcY <https://kas.id.lv>",
+  "license": "GPL-3.0-only",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mineflayer": "https://github.com/iiroak/mineflayer/archive/refs/heads/fix/client-tick-end.tar.gz"
+  }
+}
