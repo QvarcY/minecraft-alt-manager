@@ -1,6 +1,6 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 
-$BuilderVersion = '1.7.0'
+$BuilderVersion = '1.7.2'
 $ReleaseStage = 'Stable'
 $ProjectRoot = $PSScriptRoot
 $BuildRoot = Join-Path $ProjectRoot 'PORTABLE-BUILD'
@@ -212,10 +212,12 @@ function New-VerifiedReleaseArchive([string]$SourceDirectory, [string]$BuildDire
     }
 
     foreach ($requiredEntry in @(
+        "$ReleaseFolderName/LICENSE",
         "$ReleaseFolderName/README-FIRST.txt",
         "$ReleaseFolderName/LIETOSANAS-PAMACIBA-LV.txt",
         "$ReleaseFolderName/USER-GUIDE-EN.txt",
         "$ReleaseFolderName/CHANGELOG.txt",
+        "$ReleaseFolderName/examples/knt-survival.example.json",
         "$ReleaseFolderName/app/manager.js"
     )) {
         if ($entryNames -notcontains $requiredEntry) {
@@ -292,7 +294,7 @@ pkg.version = version
 pkg.description = 'Universal Minecraft ALT profile and automation manager'
 pkg.main = 'manager.js'
 pkg.author = `${author} <${website}>`
-pkg.license = 'UNLICENSED'
+pkg.license = 'GPL-3.0-only'
 pkg.private = true
 pkg.type = 'commonjs'
 pkg.scripts = {
@@ -331,6 +333,7 @@ $required = @(
     'manager.js',
     'package.json',
     'package-lock.json',
+    'LICENSE',
     'decrypt-password.ps1',
     'save-secret.ps1',
     'core',
@@ -352,6 +355,7 @@ $required = @(
     'usb-tools\self-test.ps1',
     'docs\LIETOSANAS-PAMACIBA-LV.txt',
     'docs\USER-GUIDE-EN.txt',
+    'examples\knt-survival.example.json',
     'docs\CHANGELOG.txt'
 )
 
@@ -476,6 +480,8 @@ New-Item -ItemType Directory -Path $ToolsRoot -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $AppRoot 'runtime') -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $AppRoot 'data\profiles') -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $AppRoot 'data\secrets') -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $ProjectRoot 'LICENSE') -Destination (Join-Path $UsbRoot 'LICENSE') -Force
+
 
 Write-Step 'Copying Manager application'
 Copy-Item -LiteralPath (Join-Path $ProjectRoot 'manager.js') -Destination $AppRoot -Force
@@ -508,33 +514,23 @@ Write-Ok ("Bedrock payload: {0} -> {1}; saved {2}; removed {3} version item(s); 
 Write-Step 'Copying bundled Node runtime'
 Copy-Item -LiteralPath $NodeExe -Destination (Join-Path $AppRoot 'runtime\node.exe') -Force
 
-Write-Step 'Copying portable profiles (passwords are excluded)'
-$sourceProfiles = Join-Path $ProjectRoot 'data\profiles'
-if (Test-Path -LiteralPath $sourceProfiles) {
-    Get-ChildItem -LiteralPath $sourceProfiles -Filter '*.json' -File | ForEach-Object {
-        # Validate profile JSON before packaging.
-        try {
-            Get-Content -LiteralPath $_.FullName -Raw | ConvertFrom-Json | Out-Null
-        }
-        catch {
-            throw "Invalid profile JSON: $($_.FullName)"
-        }
-        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $AppRoot 'data\profiles') -Force
-        Write-Host "Profile included: $($_.Name)"
-    }
+Write-Step 'Preparing clean public profile data'
+Write-Ok 'Development profiles and settings are excluded from public release'
+
+Write-Step 'Copying sanitized example profiles'
+$examplesRoot = Join-Path $UsbRoot 'examples'
+New-Item -ItemType Directory -Path $examplesRoot -Force | Out-Null
+
+$exampleProfile = Join-Path $ProjectRoot 'examples\knt-survival.example.json'
+try {
+    Get-Content -LiteralPath $exampleProfile -Raw | ConvertFrom-Json | Out-Null
+}
+catch {
+    throw "Invalid example profile JSON: $exampleProfile"
 }
 
-$sourceSettings = Join-Path $ProjectRoot 'data\settings.json'
-if (Test-Path -LiteralPath $sourceSettings) {
-    try {
-        Get-Content -LiteralPath $sourceSettings -Raw | ConvertFrom-Json | Out-Null
-    }
-    catch {
-        throw "Invalid settings JSON: $sourceSettings"
-    }
-    Copy-Item -LiteralPath $sourceSettings -Destination (Join-Path $AppRoot 'data\settings.json') -Force
-}
-
+Copy-Item -LiteralPath $exampleProfile -Destination (Join-Path $examplesRoot 'knt-survival.example.json') -Force
+Write-Host 'Example included: knt-survival.example.json'
 # Never copy DPAPI passwords, legacy secrets or Microsoft auth caches.
 Remove-Item -LiteralPath (Join-Path $AppRoot 'secret.dat') -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath (Join-Path $AppRoot 'data\microsoft-auth') -Recurse -Force -ErrorAction SilentlyContinue
@@ -694,6 +690,8 @@ Set-Content -LiteralPath (Join-Path $UsbRoot 'README-FIRST.txt') -Value $readme 
 Write-Step 'Verifying copied application files'
 Assert-FileMatch -Source (Join-Path $ProjectRoot 'manager.js') -Destination (Join-Path $AppRoot 'manager.js') -Label 'manager.js'
 Assert-FileMatch -Source (Join-Path $ProjectRoot 'package.json') -Destination (Join-Path $AppRoot 'package.json') -Label 'package.json'
+Assert-FileMatch -Source (Join-Path $ProjectRoot 'LICENSE') -Destination (Join-Path $UsbRoot 'LICENSE') -Label 'GPL-3.0 LICENSE'
+
 Assert-FileMatch -Source (Join-Path $ProjectRoot 'decrypt-password.ps1') -Destination (Join-Path $AppRoot 'decrypt-password.ps1') -Label 'decrypt-password.ps1'
 Assert-FileMatch -Source (Join-Path $ProjectRoot 'save-secret.ps1') -Destination (Join-Path $AppRoot 'save-secret.ps1') -Label 'save-secret.ps1'
 Assert-TreeMatch -SourceRoot (Join-Path $ProjectRoot 'core') -DestinationRoot (Join-Path $AppRoot 'core') -Label 'core'
@@ -708,6 +706,7 @@ Get-ChildItem -LiteralPath $TemplateRoot -Filter '*.ps1' -File | ForEach-Object 
 Assert-FileMatch -Source (Join-Path $DocsRoot 'LIETOSANAS-PAMACIBA-LV.txt') -Destination (Join-Path $UsbRoot 'LIETOSANAS-PAMACIBA-LV.txt') -Label 'Latvian user guide'
 Assert-FileMatch -Source (Join-Path $DocsRoot 'USER-GUIDE-EN.txt') -Destination (Join-Path $UsbRoot 'USER-GUIDE-EN.txt') -Label 'English user guide'
 Assert-FileMatch -Source (Join-Path $DocsRoot 'CHANGELOG.txt') -Destination (Join-Path $UsbRoot 'CHANGELOG.txt') -Label 'Changelog'
+Assert-FileMatch -Source (Join-Path $ProjectRoot 'examples\knt-survival.example.json') -Destination (Join-Path $UsbRoot 'examples\knt-survival.example.json') -Label 'Sanitized KNT example profile'
 Write-Ok 'USB launcher/installer/uninstaller/documentation files MATCH source'
 
 $BuiltNode = Join-Path $AppRoot 'runtime\node.exe'
@@ -795,6 +794,19 @@ if ($secretFiles.Count -gt 0) {
 if (Test-Path -LiteralPath (Join-Path $AppRoot 'data\microsoft-auth')) {
     throw 'SECURITY CHECK FAILED: Microsoft auth cache is present in the USB package.'
 }
+
+$packagedProfiles = @(
+    Get-ChildItem -LiteralPath (Join-Path $AppRoot 'data\profiles') -Filter '*.json' -File -Force -ErrorAction SilentlyContinue
+)
+if ($packagedProfiles.Count -gt 0) {
+    throw 'SECURITY CHECK FAILED: development profile JSON found in public app\data\profiles.'
+}
+
+if (Test-Path -LiteralPath (Join-Path $AppRoot 'data\settings.json')) {
+    throw 'SECURITY CHECK FAILED: development data\settings.json found in public package.'
+}
+
+Write-Ok 'No development profiles or settings packaged'
 if (@(Get-ChildItem -LiteralPath $UsbRoot -Directory -Recurse -Force | Where-Object { $_.Name -eq '_ARCHIVE' }).Count -gt 0) {
     throw 'SECURITY CHECK FAILED: _ARCHIVE is present in the USB package.'
 }
@@ -852,6 +864,8 @@ foreach ($name in $rootTemplates) {
     $manifestTargets += (Join-Path $UsbRoot $name)
 }
 $manifestTargets += @(
+    (Join-Path $UsbRoot 'LICENSE'),
+    (Join-Path $UsbRoot 'examples\knt-survival.example.json'),
     (Join-Path $UsbRoot 'package-info.json'),
     (Join-Path $UsbRoot 'VERSION.txt'),
     (Join-Path $UsbRoot 'README-FIRST.txt'),

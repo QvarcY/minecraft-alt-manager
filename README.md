@@ -94,7 +94,7 @@ Extracted: 195.4 MB
 SHA256:
 
 ```text
-8931b3d24ab9686c4fc13b67321f184b789cae9fe94bf5b8d905a71067e6f769
+3ad7a90898d54c8361d4983a89c9628911fc1ba1e3b3ab8f9e16545361ec8379
 ```
 
 The Windows release includes the required Node.js runtime and dependencies.
