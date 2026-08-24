@@ -6,6 +6,12 @@ Created by **QvarcY**<br>
 **IT solutions by QvarcY**<br>
 https://kas.id.lv
 
+### Main dashboard
+
+![Minecraft ALT Manager main dashboard](docs/screenshots/01-main-dashboard.png)
+
+*The main control panel with ALT status, server information, workflow progress and connection controls.*
+
 ---
 
 ## Overview
@@ -191,6 +197,12 @@ Minecraft ALT Manager therefore provides several starting templates:
 - **Login + AFK**
 - **Hub / Proxy + Home**
 
+### Profile configuration
+
+![Minecraft ALT Manager profile configuration](docs/screenshots/02-profile-configuration.png)
+
+*Profiles define the server, Minecraft version, ALT account and the automation template used to reach the desired AFK state.*
+
 If you do not yet know how a server behaves, start with **Exploration mode**.
 
 You can connect the ALT, watch the server log and use the manual command console to determine which commands and server messages are required.
@@ -220,6 +232,12 @@ WHEN the destination server responds
 → WAIT 3 seconds
 → DO /tp land-home
 ```
+
+### Workflow automation
+
+![Minecraft ALT Manager workflow automation](docs/screenshots/03-workflow-automation.png)
+
+*Each workflow step defines what must happen, how long to wait and which action should be performed.*
 
 Available workflow variables include:
 
@@ -271,6 +289,12 @@ Wait for the server/world transition
 ↓
 Mark the ALT as AFK
 ```
+
+### AFK completion
+
+![Minecraft ALT Manager AFK completion workflow](docs/screenshots/04-afk-complete.png)
+
+*The final workflow step can wait for the required world/configuration transition before marking the ALT as successfully AFK.*
 
 The example profile also demonstrates handling of a Velocity-based server transition and automatic reconnect behavior.
 
