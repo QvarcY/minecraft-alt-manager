@@ -5,6 +5,25 @@
 Created by **QvarcY**<br>
 **IT solutions by QvarcY**<br>
 https://kas.id.lv
+<!-- PUBLIC-LINKS -->
+
+## Live Demo & Downloads
+
+**🌐 Live website / interactive demo:**  
+https://qvarcy.github.io/minecraft-alt-manager/
+
+**⬇️ Latest stable release:**  
+https://github.com/QvarcY/minecraft-alt-manager/releases/latest
+
+**📖 Documentation:**  
+[English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html) ·
+[Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html) ·
+[Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
+
+> The GitHub Pages demo is a browser-only simulation. It does not connect to a Minecraft server or store credentials.
+
+---
+
 
 ### Main dashboard
 
@@ -651,6 +670,13 @@ CHANGELOG.txt
 ```
 
 Minecraft ALT Manager also includes an integrated guide inside the local management interface.
+
+Public documentation pages:
+
+- [English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html)
+- [Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html)
+- [v3.2.0 Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
+- [Interactive Demo](https://qvarcy.github.io/minecraft-alt-manager/)
 
 For security-related information, see:
 
