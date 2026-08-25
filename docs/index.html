@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Minecraft ALT Manager by QvarcY — Windows Minecraft Java Edition ALT profile, automation, AFK and reconnect manager.">
+  <meta name="author" content="QvarcY">
+  <meta property="og:title" content="Minecraft ALT Manager by QvarcY">
+  <meta property="og:description" content="Manage Minecraft Java Edition ALT accounts with profiles, automation workflows, AFK handling and reconnect logic.">
+  <meta property="og:type" content="website">
+  <title>Minecraft ALT Manager by QvarcY</title>
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#top"><span class="mark">M</span><span><strong>Minecraft ALT Manager</strong><small>by QvarcY · kas.id.lv</small></span></a>
+  <nav><a href="#features">Features</a><a href="#demo">Demo</a><a href="#screenshots">Screenshots</a><a href="#download">Download</a><a class="btn" href="https://github.com/QvarcY/minecraft-alt-manager" target="_blank" rel="noopener">GitHub</a></nav>
+</header>
+
+<main id="top">
+<section class="hero wrap">
+  <div>
+    <span class="eyebrow">Minecraft Java Edition · Windows x64</span>
+    <h1>Keep your ALT connected without running a full Minecraft client.</h1>
+    <p>Minecraft ALT Manager is a Windows application for configurable ALT profiles, automated login flows, server switching, AFK workflows and reconnect handling.</p>
+    <div class="actions"><a class="btn primary" href="https://github.com/QvarcY/minecraft-alt-manager/releases/latest" target="_blank" rel="noopener">Download latest release</a><a class="btn" href="#demo">Try interactive demo</a></div>
+    <div class="trust"><span>✓ Portable mode</span><span>✓ Installed mode</span><span>✓ Local browser UI</span><span>✓ DPAPI protected passwords</span></div>
+  </div>
+  <div class="preview">
+    <div class="windowbar"><i></i><i></i><i></i><b>ALT Manager · localhost:3077</b></div>
+    <div class="previewbody">
+      <div class="previewtop"><div><small>PROFILE</small><strong>survival-alt</strong></div><span class="status online">CONNECTED</span></div>
+      <div class="cards"><div><small>ALT</small><strong>QvarcY_ALT</strong></div><div><small>SERVER</small><strong>play.example.net</strong></div><div><small>WORKFLOW</small><strong>AFK</strong></div><div><small>RECONNECT</small><strong>Enabled</strong></div></div>
+      <div class="minilog"><span>✓ Connected</span><span>✓ Login confirmed</span><span>✓ Switched to Survival</span><span>✓ Teleported home</span><em>● AFK active</em></div>
+    </div>
+  </div>
+</section>
+
+<section class="releasebar"><div class="wrap"><span>Current stable release</span><strong>v3.2.0</strong><span>Windows x64</span><span>Minecraft Java Edition</span><a href="https://github.com/QvarcY/minecraft-alt-manager/releases/latest" target="_blank" rel="noopener">View release →</a></div></section>
+
+<section id="features" class="section wrap">
+  <div class="head"><span class="eyebrow">Built for real server workflows</span><h2>More than an AFK bot.</h2><p>Profiles describe how an ALT should connect, authenticate, move between servers and recover when something goes wrong.</p></div>
+  <div class="features">
+    <article><span>01</span><h3>Profiles</h3><p>Keep server address, ALT identity, authentication and workflow logic together.</p></article>
+    <article><span>02</span><h3>WHEN → WAIT → DO</h3><p>Build readable automation flows instead of hard-coding one server sequence.</p></article>
+    <article><span>03</span><h3>Reconnect handling</h3><p>Progressive backoff and circuit-breaker logic help prevent uncontrolled reconnect loops.</p></article>
+    <article><span>04</span><h3>Server switching</h3><p>Automate proxy or hub transitions and wait for confirmation before continuing.</p></article>
+    <article><span>05</span><h3>AFK workflows</h3><p>Login, switch server, teleport to a destination and mark the workflow as AFK.</p></article>
+    <article><span>06</span><h3>Protected credentials</h3><p>Saved passwords use Windows DPAPI rather than being stored directly in profile JSON files.</p></article>
+  </div>
+</section>
+
+<section id="demo" class="demo-section section">
+<div class="wrap">
+  <div class="head"><span class="eyebrow">Interactive preview</span><h2>Try the workflow without connecting to Minecraft.</h2><p>This browser-only simulation demonstrates the ALT Manager flow. It does not contact a Minecraft server or store credentials.</p></div>
+  <div class="demo">
+    <aside><span class="mark">M</span><strong>ALT Manager</strong><small>DEMO MODE</small><button class="profile active">survival-alt <b>●</b></button><button class="profile">farm-alt <b>○</b></button><button class="profile">backup-alt <b>○</b></button></aside>
+    <div class="demomain">
+      <div class="demotop"><div><small>PROFILE</small><h3>survival-alt</h3></div><span id="demoStatus" class="status offline">OFFLINE</span></div>
+      <div class="cards"><div><small>ALT USERNAME</small><strong>QvarcY_ALT</strong></div><div><small>SERVER</small><strong>play.example.net</strong></div><div><small>TARGET</small><strong>Survival</strong></div><div><small>RECONNECT</small><strong>Enabled</strong></div></div>
+      <div class="workflow"><div class="rowtitle"><strong>Automation workflow</strong><span>WHEN → WAIT → DO</span></div><div id="workflowSteps" class="steps">
+        <div><span>1</span><p><b>WHEN</b> ALT joins</p><em>WAIT 3s → /login ••••</em></div>
+        <div><span>2</span><p><b>WHEN</b> login confirmed</p><em>WAIT 3s → /server-survival</em></div>
+        <div><span>3</span><p><b>WHEN</b> server ready</p><em>WAIT 3s → /tp land-home</em></div>
+        <div><span>4</span><p><b>WHEN</b> destination loaded</p><em>MARK AS AFK</em></div>
+      </div></div>
+      <div class="controls"><button id="startDemo" class="btn primary">Start ALT</button><button id="disconnectDemo" class="btn danger" disabled>Disconnect</button><button id="resetDemo" class="btn">Reset demo</button></div>
+      <div class="workflow"><div class="rowtitle"><strong>Server log</strong><button id="clearLog">Clear</button></div><div id="demoLog" class="console"><div><time>--:--:--</time><span>Demo ready. No real server connection will be made.</span></div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="screenshots" class="section wrap">
+  <div class="head"><span class="eyebrow">Real application</span><h2>See the actual ALT Manager UI.</h2></div>
+  <div class="gallery">
+    <figure><img src="screenshots/01-main-dashboard.png" alt="Minecraft ALT Manager main dashboard"><figcaption>Main dashboard</figcaption></figure>
+    <figure><img src="screenshots/02-profile-configuration.png" alt="Minecraft ALT Manager profile configuration"><figcaption>Profile configuration</figcaption></figure>
+    <figure><img src="screenshots/03-workflow-automation.png" alt="Minecraft ALT Manager workflow automation"><figcaption>Workflow automation</figcaption></figure>
+    <figure><img src="screenshots/04-afk-complete.png" alt="Minecraft ALT Manager AFK workflow complete"><figcaption>AFK workflow complete</figcaption></figure>
+  </div>
+</section>
+
+<section id="download" class="section wrap"><div class="download"><div><span class="eyebrow">Windows release</span><h2>Download Minecraft ALT Manager</h2><p>The packaged Windows release includes the required Node.js runtime and dependencies. No separate Node.js installation is required.</p></div><div class="actions"><a class="btn primary" href="https://github.com/QvarcY/minecraft-alt-manager/releases/latest" target="_blank" rel="noopener">Latest GitHub Release</a><a class="btn" href="USER-GUIDE-EN.txt">English guide</a><a class="btn" href="LIETOSANAS-PAMACIBA-LV.txt">Latviešu pamācība</a><a class="btn" href="CHANGELOG.txt">Changelog</a></div></div></section>
+</main>
+
+<footer class="footer wrap"><strong>Minecraft ALT Manager</strong><p>Created by QvarcY · IT solutions by QvarcY · <a href="https://kas.id.lv" target="_blank" rel="noopener">kas.id.lv</a> · <a href="https://github.com/QvarcY" target="_blank" rel="noopener">GitHub</a></p><p class="fine">Minecraft is a trademark of Microsoft/Mojang. This project is an independent community utility and is not affiliated with or endorsed by Mojang or Microsoft.</p></footer>
+<script src="pages.js"></script>
+</body>
+</html>
