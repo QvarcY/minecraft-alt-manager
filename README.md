@@ -5,25 +5,42 @@
 Created by **QvarcY**<br>
 **IT solutions by QvarcY**<br>
 https://kas.id.lv
+
+<p align="center">
+  <a href="https://github.com/QvarcY/minecraft-alt-manager/releases/latest">
+    <img src="https://img.shields.io/github/v/release/QvarcY/minecraft-alt-manager?style=for-the-badge&label=Download&color=2ea44f" alt="Download latest Minecraft ALT Manager release">
+  </a>
+  <a href="https://qvarcy.github.io/minecraft-alt-manager/">
+    <img src="https://img.shields.io/badge/Live_Demo-Open_in_Browser-2496ED?style=for-the-badge" alt="Open Minecraft ALT Manager live demo">
+  </a>
+  <a href="https://buymeacoffee.com/craftin">
+    <img src="https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_Project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000000" alt="Support Minecraft ALT Manager on Buy Me a Coffee">
+  </a>
+</p>
+
 <!-- PUBLIC-LINKS -->
 
 ## Live Demo & Downloads
 
-**🌐 Live website / interactive demo:**  
+**🌐 Live website / interactive demo:**
 https://qvarcy.github.io/minecraft-alt-manager/
 
-**⬇️ Latest stable release:**  
+**⬇️ Latest stable release:**
 https://github.com/QvarcY/minecraft-alt-manager/releases/latest
 
-**📖 Documentation:**  
+**📖 Documentation:**
 [English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html) ·
 [Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html) ·
 [Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
 
+**☕ Support the project:**
+[Buy Me a Coffee](https://buymeacoffee.com/craftin)
+
 > The GitHub Pages demo is a browser-only simulation. It does not connect to a Minecraft server or store credentials.
+>
+> If Minecraft ALT Manager is useful to you, consider supporting its continued development. The application remains free and open source.
 
 ---
-
 
 ### Main dashboard
 
@@ -57,34 +74,35 @@ WHEN the target server is ready
 WHEN the destination world has loaded
 → MARK AS AFK
 ```
+
 ---
 
 ## Highlights
 
-- Minecraft **Java Edition** support
-- Windows x64
-- Portable and installed modes
-- Local browser-based management interface
-- Multiple configurable server profiles
-- Guided profile templates
-- Exploration mode for unknown servers
-- `WHEN → WAIT → DO` workflow editor
-- Automatic `/login` workflows
-- Proxy / hub server switching
-- Automatic teleport and home commands
-- Automatic AFK workflow handling
-- Automatic reconnect with progressive backoff
-- Reconnect circuit breaker
-- Velocity `CONFIGURATION` transition handling
-- Modern Minecraft `CLIENT_TICK_END` compatibility
-- Manual command console
-- Clickable server log messages for workflow configuration
-- Profile validation
-- Profile JSON import/export
-- Windows DPAPI protected password storage
-- Bundled Node.js runtime in Windows releases
-- Clean-PC self-test
-- Release integrity verification
+* Minecraft **Java Edition** support
+* Windows x64
+* Portable and installed modes
+* Local browser-based management interface
+* Multiple configurable server profiles
+* Guided profile templates
+* Exploration mode for unknown servers
+* `WHEN → WAIT → DO` workflow editor
+* Automatic `/login` workflows
+* Proxy / hub server switching
+* Automatic teleport and home commands
+* Automatic AFK workflow handling
+* Automatic reconnect with progressive backoff
+* Reconnect circuit breaker
+* Velocity `CONFIGURATION` transition handling
+* Modern Minecraft `CLIENT_TICK_END` compatibility
+* Manual command console
+* Clickable server log messages for workflow configuration
+* Profile validation
+* Profile JSON import/export
+* Windows DPAPI protected password storage
+* Bundled Node.js runtime in Windows releases
+* Clean-PC self-test
+* Release integrity verification
 
 ---
 
@@ -144,10 +162,10 @@ The application runs directly from the extracted release folder or from a USB dr
 
 Portable mode is useful when you want to:
 
-- keep the application self-contained;
-- move it between compatible Windows computers;
-- avoid installing the application permanently;
-- keep profiles together with the portable copy.
+* keep the application self-contained;
+* move it between compatible Windows computers;
+* avoid installing the application permanently;
+* keep profiles together with the portable copy.
 
 Passwords are **not stored directly inside profile JSON files**.
 
@@ -211,10 +229,10 @@ Login
 
 Minecraft ALT Manager therefore provides several starting templates:
 
-- **Exploration mode**
-- **Direct AFK**
-- **Login + AFK**
-- **Hub / Proxy + Home**
+* **Exploration mode**
+* **Direct AFK**
+* **Login + AFK**
+* **Hub / Proxy + Home**
 
 ### Profile configuration
 
@@ -469,10 +487,10 @@ Minecraft ALT Manager targets Minecraft **Java Edition**, so the Windows release
 
 During release generation:
 
-- all required Java / PC Minecraft protocol data is retained;
-- large Bedrock Edition version-data sets are removed;
-- small Bedrock common metadata required by the upstream loader is retained;
-- unnecessary development and cache files are removed from packaged dependencies.
+* all required Java / PC Minecraft protocol data is retained;
+* large Bedrock Edition version-data sets are removed;
+* small Bedrock common metadata required by the upstream loader is retained;
+* unnecessary development and cache files are removed from packaged dependencies.
 
 This reduced the development package from approximately:
 
@@ -510,14 +528,14 @@ This performs a local preflight test of the packaged application before normal u
 
 The self-test verifies, among other things:
 
-- required release files are present;
-- the bundled Node.js runtime can start;
-- JavaScript source files pass syntax checks;
-- required runtime dependencies can be loaded;
-- Java Edition Minecraft data is available;
-- locally stored passwords are not packaged;
-- Microsoft authentication caches are not packaged;
-- the Manager can start and stop in an isolated test environment.
+* required release files are present;
+* the bundled Node.js runtime can start;
+* JavaScript source files pass syntax checks;
+* required runtime dependencies can be loaded;
+* Java Edition Minecraft data is available;
+* locally stored passwords are not packaged;
+* Microsoft authentication caches are not packaged;
+* the Manager can start and stop in an isolated test environment.
 
 The self-test does **not** connect to a real Minecraft server.
 
@@ -531,10 +549,10 @@ Minecraft ALT Manager can also be run directly from the source repository.
 
 ### Requirements
 
-- Windows
-- Node.js
-- npm
-- Internet access while installing dependencies
+* Windows
+* Node.js
+* npm
+* Internet access while installing dependencies
 
 Clone or download the repository and open a terminal in the project directory.
 
@@ -645,12 +663,12 @@ Server rules differ.
 
 Some servers may use:
 
-- CAPTCHA or anti-bot systems;
-- custom authentication plugins;
-- unusual proxy configurations;
-- custom server-switching commands;
-- additional verification steps;
-- plugins that are not compatible with Mineflayer-based clients.
+* CAPTCHA or anti-bot systems;
+* custom authentication plugins;
+* unusual proxy configurations;
+* custom server-switching commands;
+* additional verification steps;
+* plugins that are not compatible with Mineflayer-based clients.
 
 A workflow that works on one server may therefore require changes before it works on another.
 
@@ -673,10 +691,10 @@ Minecraft ALT Manager also includes an integrated guide inside the local managem
 
 Public documentation pages:
 
-- [English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html)
-- [Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html)
-- [v3.2.0 Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
-- [Interactive Demo](https://qvarcy.github.io/minecraft-alt-manager/)
+* [English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html)
+* [Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html)
+* [v3.2.0 Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
+* [Interactive Demo](https://qvarcy.github.io/minecraft-alt-manager/)
 
 For security-related information, see:
 
@@ -685,6 +703,37 @@ For security-related information, see:
 For version history, see:
 
 [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+## ☕ Support the Project
+
+Minecraft ALT Manager is developed and maintained as a **free and open-source project**.
+
+If the application is useful to you, saves you from keeping another full Minecraft client running, helps automate your ALT workflow, or you simply want to support future development, you can buy me a coffee.
+
+Your support helps with:
+
+* continued development and testing;
+* compatibility work for newer Minecraft Java versions and protocol changes;
+* improvements to workflow automation and profile management;
+* reconnect reliability and proxy / server-transition handling;
+* bug fixes, diagnostics and release verification;
+* documentation, examples and usability improvements;
+* keeping Minecraft ALT Manager freely available to the community.
+
+<p align="center">
+  <a href="https://buymeacoffee.com/craftin">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Support independent development of Minecraft ALT Manager.</strong><br>
+  <a href="https://buymeacoffee.com/craftin">buymeacoffee.com/craftin</a>
+</p>
+
+Support is completely optional. Minecraft ALT Manager remains available under its open-source license whether you contribute or not.
 
 ---
 
@@ -707,7 +756,9 @@ See the complete license text:
 Created by **QvarcY**<br>
 **IT solutions by QvarcY**
 
-https://kas.id.lv
+**Website:** https://kas.id.lv
+**GitHub:** https://github.com/QvarcY/minecraft-alt-manager
+**Support:** https://buymeacoffee.com/craftin
 
 ---
 
