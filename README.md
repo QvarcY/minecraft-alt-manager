@@ -45,10 +45,6 @@ It helps other Minecraft players discover the project and supports continued dev
 Created by **QvarcY** · [kas.id.lv](https://kas.id.lv) · [Support the project](https://buymeacoffee.com/craftin)
 
 ---
-
-## Overview
-
-
 ## Overview
 
 Minecraft ALT Manager is a Windows application designed to keep Minecraft Java Edition ALT accounts connected without running a full Minecraft game client.
