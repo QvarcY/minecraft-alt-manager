@@ -1,10 +1,8 @@
 # Minecraft ALT Manager
 
-**A Windows manager for Minecraft Java Edition ALT accounts, automated login flows, server switching, AFK workflows and reconnect handling.**
+**Keep Minecraft Java ALT accounts connected without running a full Minecraft client.**
 
-Created by **QvarcY**<br>
-**IT solutions by QvarcY**<br>
-https://kas.id.lv
+A Windows application for managing Minecraft Java Edition ALT/AFK accounts with automated login, server switching, configurable workflows and reconnect handling — powered by Mineflayer.
 
 <p align="center">
   <a href="https://github.com/QvarcY/minecraft-alt-manager/releases/latest">
@@ -13,42 +11,43 @@ https://kas.id.lv
   <a href="https://qvarcy.github.io/minecraft-alt-manager/">
     <img src="https://img.shields.io/badge/Live_Demo-Open_in_Browser-2496ED?style=for-the-badge" alt="Open Minecraft ALT Manager live demo">
   </a>
-  <a href="https://buymeacoffee.com/craftin">
-    <img src="https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_Project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000000" alt="Support Minecraft ALT Manager on Buy Me a Coffee">
+  <a href="https://github.com/QvarcY/minecraft-alt-manager/stargazers">
+    <img src="https://img.shields.io/github/stars/QvarcY/minecraft-alt-manager?style=for-the-badge&label=Star" alt="Star Minecraft ALT Manager on GitHub">
   </a>
 </p>
 
-<!-- PUBLIC-LINKS -->
-
-## Live Demo & Downloads
-
-**🌐 Live website / interactive demo:**
-https://qvarcy.github.io/minecraft-alt-manager/
-
-**⬇️ Latest stable release:**
-https://github.com/QvarcY/minecraft-alt-manager/releases/latest
-
-**📖 Documentation:**
-[English User Guide](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html) ·
-[Latviešu pamācība](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html) ·
-[Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
-
-**☕ Support the project:**
-[Buy Me a Coffee](https://buymeacoffee.com/craftin)
-
-> The GitHub Pages demo is a browser-only simulation. It does not connect to a Minecraft server or store credentials.
->
-> If Minecraft ALT Manager is useful to you, consider supporting its continued development. The application remains free and open source.
-
----
-
-### Main dashboard
-
 ![Minecraft ALT Manager main dashboard](docs/screenshots/01-main-dashboard.png)
 
-*The main control panel with ALT status, server information, workflow progress and connection controls.*
+### What can it do?
+
+* Keep Minecraft Java ALT accounts online without running the full game client
+* Automate `/login`, server switching, teleport and AFK workflows
+* Build custom `WHEN → WAIT → DO` automation
+* Automatically reconnect after unexpected disconnects
+* Handle proxy / Velocity server transitions
+* Manage multiple reusable server profiles
+* Protect saved passwords using Windows DPAPI
+* Run as a portable Windows application with the required Node.js runtime included
+
+### Try it
+
+**Download:** [Latest Windows x64 release](https://github.com/QvarcY/minecraft-alt-manager/releases/latest)
+**Interactive demo:** [qvarcy.github.io/minecraft-alt-manager](https://qvarcy.github.io/minecraft-alt-manager/)
+**Documentation:** [English](https://qvarcy.github.io/minecraft-alt-manager/guide-en.html) · [Latviešu](https://qvarcy.github.io/minecraft-alt-manager/guide-lv.html) · [Changelog](https://qvarcy.github.io/minecraft-alt-manager/changelog.html)
+
+> The browser demo is a simulation of the management interface. It does not connect to a Minecraft server or store credentials.
+
+### Like the project?
+
+If Minecraft ALT Manager is useful to you, **⭐ star the repository**.
+It helps other Minecraft players discover the project and supports continued development.
+
+Created by **QvarcY** · [kas.id.lv](https://kas.id.lv) · [Support the project](https://buymeacoffee.com/craftin)
 
 ---
+
+## Overview
+
 
 ## Overview
 
